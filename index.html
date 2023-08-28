@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>інтернет-магазин</title>
+</head>
+<body>
+    <div class="container">
+        <div class="categories">
+            <h2>Категорії</h2>
+            <ul>
+                <li class="category-item" data-category="electronics">Електроніка</li>
+                <li class="category-item" data-category="clothing">Одяг</li>
+                <li class="category-item" data-category="books">Книги</li>
+            </ul>
+        </div>
+        <div class="products">
+            <h2>Товари</h2>
+            <ul class="product-list">
+            </ul>
+        </div>
+        <div class="product-info">
+        </div>
+    </div>
+    <script>
+      const categories = document.querySelectorAll('.category-item');
+const productList = document.querySelector('.product-list');
+const productInfo = document.querySelector('.product-info');
+
+const productsData = {
+    electronics: [
+        { name: 'Смартфон', price: 1100 },
+        { name: 'Ноутбук', price: 1700 },
+    ],
+    clothing: [
+        { name: 'Футболка', price: 30 },
+        { name: 'Свитер', price: 40 },
+    ],
+    books: [
+        { name: 'Роман', price: 20 },
+        { name: 'Книга', price: 15 },
+    ],
+};
+
+function clearProducts() {
+    productList.innerHTML = '';
+    productInfo.innerHTML = '';
+}
+
+function showProducts(category) {
+    clearProducts();
+    productsData[category].forEach(product => {
+        const listItem = document.createElement('li');
+        listItem.textContent = product.name;
+        listItem.addEventListener('click', () => showProductInfo(product));
+        productList.appendChild(listItem);
+    });
+}
+
+function showProductInfo(product) {
+    productInfo.innerHTML = `
+        <h3>${product.name}</h3>
+        <p>Ціна: $${product.price}</p>
+        <button id="buy-button">Купити</button>
+    `;
+    const buyButton = document.getElementById('buy-button');
+    buyButton.addEventListener('click', () => buyProduct(product));
+}
+
+function buyProduct(product) {
+    alert(`Ви купили ${product.name} за $${product.price}`);
+    clearProducts();
+}
+
+categories.forEach(category => {
+    category.addEventListener('click', () => {
+        const selectedCategory = category.getAttribute('data-category');
+        showProducts(selectedCategory);
+    });
+});
+    </script>
+    <style>
+      body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.categories, .products, .product-info {
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 30%;
+}
+
+.categories ul, .product-list {
+    list-style: none;
+    padding: 0;
+}
+
+.categories li, .product-list li {
+    cursor: pointer;
+    padding: 5px;
+}
+
+.product-info button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.product-info button:hover {
+    background-color: #0056b3;
+}
+    </style>
+</body>
+</html>
